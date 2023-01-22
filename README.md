@@ -1,4 +1,4 @@
-# About
+# Provisioning AWS EKS cluster with Terraform
 
 Simple configuration for provisioning AWS (Amazon Web Services)
 EKS (Elastic Kubernetes Service) cluster with Terraform.
