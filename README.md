@@ -285,6 +285,7 @@ autoscaling Deployment/deployment-use-cpu <unknown>/10% 1       2       1       
 
 ```console
 $ kubectl get pods
+
 NAME                   READY STATUS  RESTARTS AGE
 deployment-use-cpu-... 1/1   Running 0        ...
 ```
@@ -293,6 +294,7 @@ Let's wait for a few minutes and check again:
 
 ```console
 $ kubectl get horizontalpodautoscalers
+
 NAME        REFERENCE                     TARGETS  MINPODS MAXPODS REPLICAS AGE
 autoscaling Deployment/deployment-use-cpu 100%/10% 1       2       2        ...
 ```
