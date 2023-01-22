@@ -251,7 +251,7 @@ Let's delete it:
 ```console
 $ kubectl delete --filename ./_workload/deployment-availability-zones.yaml
 
-deployment.apps "deployment-do-nothing" deleted
+deployment.apps "deployment-availability-zones" deleted
 ```
 
 ## Autoscaling
