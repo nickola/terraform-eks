@@ -1,0 +1,58 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cronjob-show-pods
+rules:
+  - apiGroups: [""] # "" indicates the core API group
+    resources: ["pods"]
+    verbs: ["get", "list"]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cronjob-show-pods
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cronjob-show-pods
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: cronjob-show-pods
+subjects:
+  - kind: ServiceAccount
+    name: cronjob-show-pods
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob-show-pods
+spec:
+  schedule: 0/5 * * * *
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 0 # Number of retries before considering a Job as failed
+      template:
+        spec:
+          serviceAccountName: cronjob-show-pods
+          restartPolicy: Never
+          containers:
+            - name: show-pods
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "-c", "--"]
+              # "set -o xtrace" - trace commands before execution
+              args:
+                - >
+                  set -o xtrace;
+                  kubectl get pods
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 256Mi
+                limits:
+                  cpu: 100m
+                  memory: 256Mi

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-do-nothing
+spec:
+  # Don't wait (SIGTERM) just kill (SIGKILL)
+  terminationGracePeriodSeconds: 0
+  containers:
+    - name: do-nothing
+      image: alpine:latest
+      command: ["/bin/sh", "-c", "--"]
+      args:
+        - >
+          while true; do
+            date_text=$(TZ=UTC date +"%Y-%m-%d %H:%M:%S UTC");
+            echo "I am doing nothing and show this message every 5 seconds (date: ${date_text})...";
+            sleep 5;
+          done
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+        limits:
+          cpu: 50m
+          memory: 128Mi
