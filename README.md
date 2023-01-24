@@ -400,6 +400,38 @@ Below is a brief description of the actions that were performed in AWS.
 - Create route table and default route for public subnets (to Internet Gateway).
 - Create route tables and default route for private subnets (to corresponding NAT Gateways in public subnets).
 
+```
++--------------------------------------------------------------------------------------------------+
+|  VPC (10.0.0.0/16)                                                                               |
+|                                       +------------------+                                       |
+|                                       | Internet Gateway |                                       |
+|                                       +------------------+                                       |
+|                                                                                                  |
+|  +--------------------------------------------+  +--------------------------------------------+  |
+|  |  Availability zone A                       |  |  Availability zone B                       |  |
+|  |                                            |  |                                            |  |
+|  |  +--------------------------------------+  |  |  +--------------------------------------+  |  |
+|  |  | Public Subnet (10.0.101.0/24)        |  |  |  | Public Subnet (10.0.102.0/24)        |  |  |
+|  |  | Route: 0.0.0.0/0 -> Internet Gateway |  |  |  | Route: 0.0.0.0/0 -> Internet Gateway |  |  |
+|  |  |                                      |  |  |  |                                      |  |  |
+|  |  |        +-------------------+         |  |  |  |         +-------------------+        |  |  |
+|  |  |        |   NAT Gateway A   |         |  |  |  |         |   NAT Gateway B   |        |  |  |
+|  |  |        | (with Elastic IP) |         |  |  |  |         | (with Elastic IP) |        |  |  |
+|  |  |        +-------------------+         |  |  |  |         +-------------------+        |  |  |
+|  |  +--------------------------------------+  |  |  +--------------------------------------+  |  |
+|  |                                            |  |                                            |  |
+|  |  +--------------------------------------+  |  |  +--------------------------------------+  |  |
+|  |  | Private Subnet (10.0.1.0/24)         |  |  |  | Private Subnet (10.0.2.0/24)         |  |  |
+|  |  | (for Kubernetes workers)             |  |  |  | (for Kubernetes workers)             |  |  |
+|  |  |                                      |  |  |  |                                      |  |  |
+|  |  | Route: 0.0.0.0/0 -> NAT Gateway A    |  |  |  | Route: 0.0.0.0/0 -> NAT Gateway B    |  |  |
+|  |  +--------------------------------------+  |  |  +--------------------------------------+  |  |
+|  |                                            |  |                                            |  |
+|  +--------------------------------------------+  +--------------------------------------------+  |
+|                                                                                                  |
++--------------------------------------------------------------------------------------------------+
+```
+
 ## EKS (Elastic Kubernetes Service)
 
 - Create Roles in IAM (Identity and Access Management) for EKS (EKS make calls to other AWS services).
