@@ -16,9 +16,10 @@ module "eks" {
     for node_group in var.eks_node_groups:
       node_group.name => {
         instance_types = [node_group.instance_type]
-        desired_size   = node_group.desired_size
+
         min_size       = node_group.min_size
         max_size       = node_group.max_size
+        desired_size   = node_group.desired_size
       }
   }
 }

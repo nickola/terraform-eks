@@ -122,7 +122,7 @@ eks_security_group_id = "..."
 ```
 
 Check the `outputs` above (or run `terraform output`) and update your local credentials for `kubectl`
-using the following command (`~/.kube/config` file will be overwritten, create a backup if needed):
+using the following command:
 
 ```console
 $ aws eks update-kubeconfig --region <aws_region> --name <eks_name>
@@ -215,7 +215,7 @@ Pods were deployed to nodes in different subnets (different availability zones).
 Let's increase number of replicas:
 
 ```console
-$ scale deployment deployment-availability-zones --replicas 3
+$ kubectl scale deployment deployment-availability-zones --replicas 3
 
 deployment.apps/deployment-availability-zones scaled
 ```
